@@ -66,6 +66,62 @@
             display: block;
         }
 
+        /* ケン・バーンズ（ゆっくりズーム）＆クロスフェード スライドショー効果 */
+        .kenburns-container {
+            position: relative;
+            width: 100%;
+            /* スマホで青空と墓域が広々と見渡せるよう縦の高さを確保（縦横比 3:4） */
+            aspect-ratio: 3 / 4;
+        }
+        @media (min-width: 640px) {
+            .kenburns-container {
+                /* PC・タブレット画面では 16:10 で表示 */
+                aspect-ratio: 16 / 10;
+            }
+        }
+        .kenburns-slide {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            animation: kenburnsCrossfade 12s infinite ease-in-out;
+            will-change: transform, opacity;
+        }
+        .kenburns-slide-1 {
+            animation-delay: 0s;
+        }
+        .kenburns-slide-2 {
+            animation-delay: -6s;
+        }
+        .kenburns-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+        }
+
+        /* ゆっくり拡大しながら滑らかに交差切り替え */
+        @keyframes kenburnsCrossfade {
+            0% {
+                opacity: 0;
+                transform: scale(1);
+            }
+            8% {
+                opacity: 1;
+            }
+            42% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0;
+                transform: scale(1.12);
+            }
+            100% {
+                opacity: 0;
+                transform: scale(1);
+            }
+        }
+
         /* 螺旋的カードアニメーション */
         .spiral-container {
             perspective: 1200px;
@@ -116,7 +172,7 @@
 </head>
 <body class="antialiased selection:bg-gold-500 selection:text-white">
 
-    <!-- 背景に漂う光の粒子と風に舞う新緑の葉キャンバス（画面全面で美しく表示されるよう修正） -->
+    <!-- 背景に漂う光の粒子と風に舞う新緑の葉キャンバス -->
     <canvas id="sunlightCanvas" class="fixed inset-0 pointer-events-none z-20"></canvas>
 
     <!-- ヘッダー -->
@@ -153,12 +209,22 @@
                     </p>
                 </div>
 
-                <!-- メイン画像 06.jpg (上品なサイズ感に調整) -->
-                <div class="max-w-2xl mx-auto mb-8">
-                    <div class="relative rounded-2xl overflow-hidden shadow-xl border-4 border-white bg-gray-100">
-                        <img src="06.jpg" alt="サニープレイス松戸・サニーパーク松戸 全景" class="img-fit-contain mx-auto max-h-[380px]" onerror="this.onerror=null; this.src='https://placehold.co/1000x600/1b4d3e/ffffff?text=%E9%9C%8A%E5%9C%92%E5%85%A8%E6%99%AF(06.jpg)';">
-                        <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent p-3 md:p-4 text-white text-center">
-                            <p class="text-xs md:text-base font-bold">緑豊かな静謐と、澄み渡る青空に包まれた永遠の安らぎの地</p>
+                <!-- メイン画像スライドショー (31.jpg & 32.jpg ケン・バーンズゆっくりズーム切替) -->
+                <div class="-mx-4 sm:mx-auto sm:max-w-2xl mb-8">
+                    <div class="kenburns-container sm:rounded-2xl overflow-hidden sm:shadow-xl sm:border-4 sm:border-white bg-gray-100">
+                        <!-- スライド1: 31.jpg (サニーパーク松戸) -->
+                        <div class="kenburns-slide kenburns-slide-1">
+                            <img src="31.jpg" alt="サニーパーク松戸 全景" class="kenburns-img" onerror="this.onerror=null; this.src='https://placehold.co/1000x800/b89228/ffffff?text=サニーパーク松戸(31.jpg)';">
+                            <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent p-3 md:p-4 text-white text-center">
+                                <p class="text-xs md:text-base font-bold">陽光あふれる澄み渡る青空と安らぎの風景【サニーパーク松戸】</p>
+                            </div>
+                        </div>
+                        <!-- スライド2: 32.jpg (サニープレイス松戸) -->
+                        <div class="kenburns-slide kenburns-slide-2">
+                            <img src="32.jpg" alt="サニープレイス松戸 全景" class="kenburns-img" onerror="this.onerror=null; this.src='https://placehold.co/1000x800/1b4d3e/ffffff?text=サニープレイス松戸(32.jpg)';">
+                            <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent p-3 md:p-4 text-white text-center">
+                                <p class="text-xs md:text-base font-bold">緑豊かな静謐と四季の彩りに包まれた墓所【サニープレイス松戸】</p>
+                            </div>
                         </div>
                     </div>
                 </div>
